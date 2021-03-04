@@ -41,7 +41,8 @@ OpenLibraryHandle(const std::string& path, void** handle)
 #ifdef _WIN32
   // HMODULE is typedef of void*
   // https://docs.microsoft.com/en-us/windows/win32/winprog/windows-data-types
-  *handle = LoadLibrary(path.c_str());
+  *handle = LoadLibraryEx(path.c_str(), NULL,
+                          LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_SYSTEM32);
   if (*handle == nullptr) {
     LPSTR err_buffer = nullptr;
     size_t size = FormatMessageA(
